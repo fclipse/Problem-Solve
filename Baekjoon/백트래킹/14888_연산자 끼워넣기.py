@@ -2,6 +2,7 @@
 # 백트래킹 idea : 현재 숫자가 max보다 작은데 남은데 //, -밖에 없다면 pass
 # 마찬가지로 min보다 큰데 남은게 *, +밖에 없으면 pass
 # 그냥 조합 쓰는게 백트래킹효과를 냄.
+# https://velog.io/@kimdukbae/BOJ-14888-%EC%97%B0%EC%82%B0%EC%9E%90-%EB%81%BC%EC%9B%8C%EB%84%A3%EA%B8%B0-Python 참고
 from itertools import combinations
 import sys, copy
 n = int(input())
