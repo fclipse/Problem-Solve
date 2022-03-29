@@ -1,3 +1,4 @@
+# 입력받은 수가 리스트 안에 있는지 탐색하는 프로그램
 import sys
 n = int(input())
 lst_n = list(map(int, sys.stdin.readline().split()))
