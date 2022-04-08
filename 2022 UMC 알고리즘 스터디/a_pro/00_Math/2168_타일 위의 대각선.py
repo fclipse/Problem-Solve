@@ -1,3 +1,4 @@
+# 시간 초과...
 import math, sys
 x, y = map(int, sys.stdin.readline().split())
 M = y / x
