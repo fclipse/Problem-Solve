@@ -1,4 +1,4 @@
-def palidrome(k):       # ëŒ€ì¹­ìˆ˜ ì°¾ëŠ” í•¨ìˆ˜, O(logn)
+def palidrome(k):       # ´ëÄª¼ö Ã£´Â ÇÔ¼ö, O(logn)
     k = str(k)
     length = len(k)
     for i in range(length//2):
@@ -7,20 +7,20 @@ def palidrome(k):       # ëŒ€ì¹­ìˆ˜ ì°¾ëŠ” í•¨ìˆ˜, O(logn)
     return 1
 
 n = 1
-lychrel = 0         # ë¼ì´í¬ë  ìˆ˜ì˜ ê°œìˆ˜
-while n <= 10000:   # 10000ê¹Œì§€ ë°˜ë³µ
-    cnt = 0         # ëŒ€ì¹­ìˆ˜ ë˜ëŠ”ì§€ ì²´í¬
-    standard_n = n  # ë”í•˜ëŠ” ë‘ n ì¤‘ ì²«ë²ˆì§¸ n, ëŒ€ì¹­ë˜ëŠ” nì€ reversed_n
+lychrel = 0         # ¶óÀÌÅ©·¼ ¼öÀÇ °³¼ö
+while n <= 10000:   # 10000±îÁö ¹İº¹
+    cnt = 0         # ´ëÄª¼ö µÇ´ÂÁö Ã¼Å©
+    standard_n = n  # ´õÇÏ´Â µÎ n Áß Ã¹¹øÂ° n, ´ëÄªµÇ´Â nÀº reversed_n
     for i in range(50):
         reversed_n = int(''.join(reversed(str(standard_n))))
         sum_n = standard_n + reversed_n
         if palidrome(sum_n):
-            cnt += 1    # ëŒ€ì¹­ìˆ˜ê°€ ëœë‹¤ë©´ break
+            cnt += 1    # ´ëÄª¼ö°¡ µÈ´Ù¸é break
             #print(sum_n)
             break
         else:
             standard_n = sum_n
-    if cnt == 0:    # 50ë²ˆë™ì•ˆ ëŒ€ì¹­ìˆ˜ê°€ í•˜ë‚˜ë„ ì—†ë‹¤ë©´
+    if cnt == 0:    # 50¹øµ¿¾È ´ëÄª¼ö°¡ ÇÏ³ªµµ ¾ø´Ù¸é
         lychrel += 1
     n += 1
 print(lychrel)

@@ -25,7 +25,7 @@ def dfs(graph, root):   # graph와 root로 node와 v를 받음.
         val = stack.popleft()   # stack 왼쪽에서 자료가 출입함.
 
         if val not in visited:
-            visited.append(val) 
+            visited.append(val) # 방문 추가
             for i in range(1, n+1):
                 if graph[val][i] == 1 and i not in visited:  # 방문은 하지 않았지만 stack에 있어서 stack에 다시 추가되는 경우 방지
                     temp.append(i)
