@@ -1,4 +1,4 @@
-// Project Euler No. 23
+// Project Euler No. 23 / 220730~ solving
 // (28123 이하의) 두 과잉수의 합으로 나타낼 수 없는 모든 양의 정수의 합은?
 // Time Complexity O(n^2)
 #include <iostream>
