@@ -4,7 +4,7 @@
 using namespace std;
 
 int main(){
-    int n, i, j;
+    int n, i;
     scanf("%d", &n);
     vector<int>wines(n, 0);
     vector<int>arr(n, 0);
@@ -17,14 +17,13 @@ int main(){
         arr[1] = wines[0] + wines[1];
     if(n > 2)
         arr[2] = max(wines[0], wines[1]) + wines[2];
-    for(i = 3; i < n; i++){
-        arr[i] = max(max(arr[i-3] + wines[i-1] + wines[i], arr[i-2] + wines[i]), arr[i-1]);
+    if(n > 3)
+        arr[3] = max(wines[3] + wines[2] + wines[0], wines[3] + arr[1]);
+    // wines[i] + wines[i-1] + arr[i-3], wines[i] + wines[i-1] + arr[i-4], wines[i] + arr[i-2] 이렇게 3개 확인해야함.
+    for(i = 4; i < n; i++){
+        arr[i] = max(max(wines[i] + wines[i-1] + arr[i-3], wines[i] + arr[i-2]), wines[i] + wines[i-1] + arr[i-4]);
     }
 
-    if(n > 1)
-        printf("%d", arr[n-1]);  // 마지막에 arr[i-3], arr[i-2]만 확인하고 arr[i-1]은 확인 안하므로 맨 마지막이 최대라는 보장 x
-    else
-        printf("%d", arr[0]);   // index 에러 방지
+    printf("%d", arr[n-1]);
     return 0;
 }
-// 100 200 101 201 
