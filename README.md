@@ -1,6 +1,7 @@
 # 백준 문제풀이 백업 폴더
 ### ** 해당 폴더와 2022_UMC_Algorithm_Study 폴더는 독립적으로 저장됨.
 > - git 링크 : https://github.com/UMC-KU/Algorithm_D/tree/a_pro
+> - 알고리즘 풀이 내용 : https://www.notion.so/Algorithm_D-3b4daef49393400b8f1556d391ef08e6
 
 ## 1. 코드 작성시 기타 참고사항들
 ### 1.1 C++
