@@ -7,130 +7,56 @@
         "reveal": "always"
     },
     "tasks": [
+		// c 빌드
         {
-            "label": "save and compile for C++",
-            "command": "g++",
-            "args": [
-                "${file}",
-                "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
-            ],
-            "group": "build",
-            "problemMatcher": {
-                "fileLocation": [
-                    "relative",
-                    "${workspaceRoot}"
-                ],
-                "pattern": {
-                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning error):\\s+(.*)$",
-                    "file": 1,
-                    "line": 2,
-                    "column": 3,
-                    "severity": 4,
-                    "message": 5
-                }
-            }
-        },
-        {
-            "label": "save and compile for C",
+            "type": "shell",
+            "label": "C - gcc.exe build active file",
             "command": "gcc",
             "args": [
+                "-g",
                 "${file}",
                 "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
+                "${fileDirname}\\${fileBasenameNoExtension}.exe"
             ],
-            "group": "build",
-            "problemMatcher": {
-                "fileLocation": [
-                    "relative",
-                    "${workspaceRoot}"
-                ],
-                "pattern": {
-                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning error):\\s+(.*)$",
-                    "file": 1,
-                    "line": 2,
-                    "column": 3,
-                    "severity": 4,
-                    "message": 5
-                }
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
             }
-        },
-        {
-            "label": "execute",
-            "command": "cmd",
-            "group": "test",
-            "args": [
-                "/C",
-                "${fileDirname}\\${fileBasenameNoExtension}"
-            ]
-        },
-        {
-            "type": "cppbuild",
-            "label": "C/C++: gcc.exe 활성 파일 빌드",
-            "command": "C:\\MinGW\\bin\\gcc.exe",
+		},
+		// c++ 빌드
+		{
+            "type": "shell",
+            "label": "C++ - g++.exe build active file",
+            "command": "g++",
             "args": [
                 "-g",
                 "${file}",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe"
             ],
-            "options": {
-                "cwd": "${fileDirname}"
-            },
             "problemMatcher": [
                 "$gcc"
             ],
-            "group": "build",
-            "detail": "디버거에서 생성된 작업입니다."
-        },
-        {
-            "type": "cppbuild",
-            "label": "C/C++: g++.exe 활성 파일 빌드",
-            "command": "C:\\MinGW\\bin\\g++.exe",
-            "args": [
-                "-g",
-                "${file}",
-                "-o",
-                "${fileDirname}\\${fileBasenameNoExtension}.exe"
-            ],
-            "options": {
-                "cwd": "${fileDirname}"
-            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+		},
+		// c/c++ 실행
+		{
+            "type": "shell",
+            "label": "Run C/C++ exe file",
+            "command": "${fileDirname}\\${fileBasenameNoExtension}.exe",
             "problemMatcher": [
                 "$gcc"
             ],
-            "group": "build",
-//            "group": {
-//               "kind": "build",
-//                "isDefault": true
-//            },
-            
-            "detail": "디버거에서 생성된 작업입니다."
-        },
-        {
-            "type": "cppbuild",
-            "label": "C/C++: gcc.exe 활성 파일 빌드",
-            "command": "C:\\MinGW\\bin\\gcc.exe",
-            "args": [
-                "-g",
-                "${file}",
-                "-o",
-                "${fileDirname}\\${fileBasenameNoExtension}.exe"
-            ],
-            "options": {
-                "cwd": "${fileDirname}"
-            },
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "group": "build",
-              
-            // "group": {
-            //     "kind": "build",
-            //     "isDefault": true
-            // },
-
-            "detail": "컴파일러: C:\\MinGW\\bin\\gcc.exe"
-        }
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            }
+		},
     ]
 }
