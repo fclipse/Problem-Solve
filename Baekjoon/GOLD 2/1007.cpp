@@ -30,6 +30,13 @@ int main(){
         for(j = 0; j < n; j++)
             scanf(" %d %d", &vectors[j][0], &vectors[j][1]);
 
+        // printf("coords:\n");
+        // for(j = 0; j < n; j++){
+        //     for(k = 0; k < 2; k++){
+        //         printf("%d ", vectors[j][k]);
+        //     }
+        //     printf("\n");
+        // }
         // nCm 조합 구현, m == n / 2
         do{
             for(j = 0; j < n; j++){
