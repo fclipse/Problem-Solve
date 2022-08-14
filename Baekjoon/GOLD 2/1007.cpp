@@ -1,16 +1,16 @@
+// Baekjoon No. 1007 - 벡터 매칭
+// 
 #include <iostream>
 #include <cmath>
 #include <vector>
 #include <algorithm>
 using namespace std;
-// swap하고자 하는 arr주소, 인덱스1, 인덱스2
-void swapArr(int (*vectors)[2], int, int);
 
 int main(){
     ios::sync_with_stdio(false);
-    int n, m, t, i, j, k, l;
-    int sx, sy;
-    double result, maxSum = 0;
+    int n, m, t, i, j;
+    long long int sx, sy;
+    double result, minSum = -1.0;
     int vectors[20][2] = {0};
     scanf("%d", &t);
 
@@ -19,7 +19,7 @@ int main(){
         sx = 0;
         sy = 0;
         result = 0;
-        maxSum = 0;
+        minSum = 0;
         scanf(" %d", &n);
         m = n / 2;  // m == n/2
         vector<int>combination(n);
@@ -29,37 +29,32 @@ int main(){
         
         for(j = 0; j < n; j++)
             scanf(" %d %d", &vectors[j][0], &vectors[j][1]);
-
-        // printf("coords:\n");
-        // for(j = 0; j < n; j++){
-        //     for(k = 0; k < 2; k++){
-        //         printf("%d ", vectors[j][k]);
-        //     }
-        //     printf("\n");
-        // }
-        // nCm 조합 구현, m == n / 2
+        
+        minSum = -1;    // 최소합이라는거 유념. 최대합인줄 알았음..
         do{
+            sx = 0;
+            sy = 0;
             for(j = 0; j < n; j++){
-                sx = (combination[j]) ? sx + vectors[j][0] : sx - vectors[j][0];
-                sy = (combination[j]) ? sy + vectors[j][1] : sy - vectors[j][1];
+                if(combination[j]){
+                    sx += vectors[j][0];
+                    sy += vectors[j][1];
+                }else{
+                    sx -= vectors[j][0];
+                    sy -= vectors[j][1];
+                }
             }
-            result = sqrt(pow(sx, 2) + pow(sy, 2));
-            maxSum = (maxSum < result) ? result : maxSum;
+            if(sx + sy == 0)
+                result = 0; // 루트0은 계산못함.
+            else
+                result = sqrt(pow(sx, 2) + pow(sy, 2));
+
+            if(minSum > result || minSum < 0)
+                minSum = result;
+            
         }while(next_permutation(combination.begin(), combination.end()));
-        printf("%d\n", maxSum);
+        // if(minSum < 0)
+        //     minSum = 0;
+        printf("%.12lf\n", minSum);
     }
     return 0;
-}
-
-void swapArr(int (*vectors)[2], int i, int j){
-    int tmpArr[2] = {0};
-    tmpArr[0] = vectors[i][0];
-    tmpArr[1] = vectors[i][1];
-    
-    vectors[i][0] = vectors[j][0];
-    vectors[i][1] = vectors[j][1];
-
-    vectors[j][0] = tmpArr[0];
-    vectors[j][1] = tmpArr[1];
-    return;
 }
