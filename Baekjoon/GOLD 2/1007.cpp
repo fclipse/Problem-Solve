@@ -1,5 +1,5 @@
 // Baekjoon No. 1007 - 벡터 매칭
-// 
+// 조합 이용해서 문제 품.
 #include <iostream>
 #include <cmath>
 #include <vector>
@@ -16,10 +16,10 @@ int main(){
 
     // 각 test case마다
     for(i = 0; i < t; i++){
+        result = -1;
         sx = 0;
         sy = 0;
-        result = 0;
-        minSum = 0;
+        minSum = -1;
         scanf(" %d", &n);
         m = n / 2;  // m == n/2
         vector<int>combination(n);
@@ -43,7 +43,7 @@ int main(){
                     sy -= vectors[j][1];
                 }
             }
-            if(sx + sy == 0)
+            if(sx == 0 && sy == 0)
                 result = 0; // 루트0은 계산못함.
             else
                 result = sqrt(pow(sx, 2) + pow(sy, 2));
