@@ -8,12 +8,10 @@
 using namespace std;
 int main(){
     ios::sync_with_stdio(false);
-    int n, m, tmp;
-    n = 0;
-    printf("n %d", n);
-    printf(" %d\n", pow(n, 2));
-printf("n %d", n);
-    
+    vector<int> arr(3, 0);
+    char c, tmp;
+    int temp;
+    printf("%s", type_info(arr))
 
     return 0;
 }

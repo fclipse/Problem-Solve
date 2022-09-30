@@ -1,0 +1,10 @@
+.problem-monospace .problem-text {
+	font-family: 'Menlo', 'Monaco', 'Consolas', 'Source Code Pro', 'Courier New', 'Nanum Gothic Coding', monospace !important;
+}
+.problem-cursive .problem-text {
+	font-family: 'Nanum Pen Script', cursive !important;
+	font-size: x-large !important;
+}
+.problem-serif .problem-text {
+	font-family: 'Noto Serif KR', 'Noto Serif', serif !important;
+}

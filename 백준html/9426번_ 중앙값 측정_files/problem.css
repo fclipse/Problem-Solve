@@ -1,0 +1,42 @@
+.printable, .printable-block {
+	display: none;
+}
+.sampledata {
+	white-space:pre;
+  word-break: normal;
+  word-wrap: normal;
+	font-size: 18px;
+	font-family: Menlo, Monaco, 'Source Code Pro', consolas, monospace;
+	padding: 8px;
+	background-color: #f7f7f9;
+	border: 1px solid #e1e1e8;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	overflow-x: scroll;
+	-ms-overflow-style: -ms-autohiding-scrollbar;
+}
+@media screen and (max-width: 768px) {
+	#problem-body table {
+		width: 100% !important;
+	}
+}
+
+.problem-button .lang-select-image {
+	position: absolute;
+	top: 0;
+}
+
+.problem-button .dropdown-menu {
+	min-width: 74px;
+}
+
+.problem-button .lang-image {
+	height: 32px;
+	width: 32px;
+	margin-right: 5px;
+}
+
+#problem-body div li a {
+	color: #0076C0 !important;
+}
