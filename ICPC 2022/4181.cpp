@@ -24,7 +24,7 @@ int main() {
     vector<vector<int>> coord;
     for (i = 0; i < n; i++) {
         cin >> x >> y >> c;
-        if (c == 'Y')   // YÀÏ °æ¿ì¿¡¸¸ push
+        if (c == 'Y')   // Yì¼ ê²½ìš°ì—ë§Œ push
             coord.push_back(vector<int> { y, x });
     }
     // solving
@@ -38,12 +38,12 @@ int main() {
     printf("sorted\n");
     for (i = 0; i < coord.size(); i++)
         cout << coord[i][0] << " " << coord[i][1] << "\n";
-    
-    // 3) stack¿¡ 2°³ ³Ö°í, °è¼Ó ÇÏ³ª popÇÏ¸é¼­ ºñ±³, coord ¾È¿¡ ÀÖ´Â°Å ´Ù ºñ±³ÇØ¼­ stack¿¡ ³Ö¾úÀ¸¸é Ãâ·Â
+
+    // 3) stackì— 2ê°œ ë„£ê³ , ê³„ì† í•˜ë‚˜ popí•˜ë©´ì„œ ë¹„êµ, coord ì•ˆì— ìˆëŠ”ê±° ë‹¤ ë¹„êµí•´ì„œ stackì— ë„£ì—ˆìœ¼ë©´ ì¶œë ¥
     stack<vector<int>> stack1;
     stack1.push(coord[0]);
     stack1.push(coord[1]);
-    
+
     stack1.top();
 
     i = 2;
@@ -59,11 +59,11 @@ int main() {
         }
         stack1.push(first);
         stack1.push(coord[i]);
-        
+
         i++;
     }
 
-    // 4) stack ¿¡¼­ ÇÏ³ª¾¿ »©¸é¼­ ´Ù¸¥ stack¿¡ ÀúÀå, µÎ ¹øÂ° stackÀº pop ¹İº¹ÇÏ¸é¼­ Ãâ·Â
+    // 4) stack ì—ì„œ í•˜ë‚˜ì”© ë¹¼ë©´ì„œ ë‹¤ë¥¸ stackì— ì €ì¥, ë‘ ë²ˆì§¸ stackì€ pop ë°˜ë³µí•˜ë©´ì„œ ì¶œë ¥
     stack<vector<int>> reversed_stack;
     while (stack1.size()) {
         reversed_stack.push(stack1.top());
@@ -85,18 +85,18 @@ bool compY(vector<int> i, vector<int> j) {
 bool compX(vector<int> i, vector<int> j) {
     return i[1] < j[1];
 }
-// v-aÀÇ °¢º¸´Ù w-aÀÌ °¢ÀÌ ´õ Å«Áö ÆÇº°ÇÏ´Â ÇÔ¼ö
+// v-aì˜ ê°ë³´ë‹¤ w-aì´ ê°ì´ ë” í°ì§€ íŒë³„í•˜ëŠ” í•¨ìˆ˜
 bool compAngle(vector<int> a, vector<int> v, vector<int> w) {
     return retrieveAngleCos(a, v) < retrieveAngleCos(a, w);
 }
 
-// y = -cosx - 1°ªÀ» ¸®ÅÏÇÏ´Â ÇÔ¼ö. x°ªÀÌ °°À» °æ¿ì¸¦ ÃÖ¼Ú°ªÀ¸·Î ¸¸µé±â À§ÇØ ÀÌ·± ¹æ¹ı »ç¿ë.
-// °¢ÀÌ ÀÛÀ»¼ö·Ï ÀÛÀº °ªÀ» ¸®ÅÏ. x°ªÀÌ °¡Àå ÀÛÀº Á¡À» ±âÁØÀ¸·Î ÇÏ¹Ç·Î 0 < °¢ <= 180ÀÓ
+// y = -cosx - 1ê°’ì„ ë¦¬í„´í•˜ëŠ” í•¨ìˆ˜. xê°’ì´ ê°™ì„ ê²½ìš°ë¥¼ ìµœì†Ÿê°’ìœ¼ë¡œ ë§Œë“¤ê¸° ìœ„í•´ ì´ëŸ° ë°©ë²• ì‚¬ìš©.
+// ê°ì´ ì‘ì„ìˆ˜ë¡ ì‘ì€ ê°’ì„ ë¦¬í„´. xê°’ì´ ê°€ì¥ ì‘ì€ ì ì„ ê¸°ì¤€ìœ¼ë¡œ í•˜ë¯€ë¡œ 0 < ê° <= 180ì„
 double retrieveAngleCos(vector<int> i, vector<int> j) {
-    if (i[1] == j[1])   // xµ¿ÀÏÇÒ °æ¿ì, y°ªÀÌ °¡Àå ÀÛÀº Á¡ ±âÁØÀÌ¹Ç·Î 180µµ·Î Ãë±Ş
+    if (i[1] == j[1])   // xë™ì¼í•  ê²½ìš°, yê°’ì´ ê°€ì¥ ì‘ì€ ì  ê¸°ì¤€ì´ë¯€ë¡œ 180ë„ë¡œ ì·¨ê¸‰
         return 0;
-    // else if (i[0] == j[0])  // yµ¿ÀÏ
-    //    return -1;
+        // else if (i[0] == j[0])  // yë™ì¼
+        //    return -1;
     else
         return -(i[0] - j[0]) / sqrt((i[0] - j[0]) * (i[0] - j[0]) + (i[1] - j[1]) * (i[1] - j[1])) - 1;
 }

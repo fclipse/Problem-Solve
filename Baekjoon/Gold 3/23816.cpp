@@ -1,4 +1,4 @@
-// Baekjoon No. 23816 ¿Ê°ÉÀÌ°ÉÀÌ°ÉÀÌ - 2209~220928 solved
+// Baekjoon No. 23816 ì˜·ê±¸ì´ê±¸ì´ê±¸ì´ - 2209~220928 solved
 // Time Complexity O(logn)
 // #math #dp
 
@@ -9,39 +9,39 @@ using namespace std;
 
 int hanger(int h, int n, int m, int cNum);
 int main() {
-	ios::sync_with_stdio(false);
-	cin.tie(NULL);
-	cout.tie(NULL);
-	int n, m, cNum = 0;
-	int i;
-	cin >> n >> m;
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    int n, m, cNum = 0;
+    int i;
+    cin >> n >> m;
 
-	cNum = hanger(1, n, m, cNum);
-	cout << cNum;
-	return 0;
+    cNum = hanger(1, n, m, cNum);
+    cout << cNum;
+    return 0;
 }
 
 int hanger(int h, int n, int m, int cNum) {
-	int i = n;
-	while (i > 0 && ((m - (int)pow(2, h - 1) * i) < 0 || (m - (int)pow(2, h - 1) * i) % (int)pow(2, h))) {
-		i--;
-	}
-	m -= (int)pow(2, h - 1) * i;
+    int i = n;
+    while (i > 0 && ((m - (int)pow(2, h - 1) * i) < 0 || (m - (int)pow(2, h - 1) * i) % (int)pow(2, h))) {
+        i--;
+    }
+    m -= (int)pow(2, h - 1) * i;
 
-	// ÀÌÀü °¡Áö¿¡ Ãß°¡·Î ´Ù´Â ¿Ê°ÉÀÌ °¹¼ö / 2¸¸Å­ ÀÌÀü ¿Ê°ÉÀÌ¿¡¼­ »©Áà¾ß ÇÔ.
-	if(h > 1)
-		cNum -= pow(2, h - 2) * i;
-	// ¿Ê°³¼ö Ãß°¡
-	if(h < 4)
-		cNum += pow(2, h - 1) * i;
-	// ´ÙÀ½ °¡Áö·Î °¡¾ßÇÏ´ÂÁö °áÁ¤
-	if (m == 0)
-		return cNum;
-	else {
-		if (i == 0 || h == 4)
-			return -1;
-		else
-			return hanger(h + 1, i, m, cNum);
-	}
-		
+    // ì´ì „ ê°€ì§€ì— ì¶”ê°€ë¡œ ë‹¤ëŠ” ì˜·ê±¸ì´ ê°¯ìˆ˜ / 2ë§Œí¼ ì´ì „ ì˜·ê±¸ì´ì—ì„œ ë¹¼ì¤˜ì•¼ í•¨.
+    if(h > 1)
+        cNum -= pow(2, h - 2) * i;
+    // ì˜·ê°œìˆ˜ ì¶”ê°€
+    if(h < 4)
+        cNum += pow(2, h - 1) * i;
+    // ë‹¤ìŒ ê°€ì§€ë¡œ ê°€ì•¼í•˜ëŠ”ì§€ ê²°ì •
+    if (m == 0)
+        return cNum;
+    else {
+        if (i == 0 || h == 4)
+            return -1;
+        else
+            return hanger(h + 1, i, m, cNum);
+    }
+
 }

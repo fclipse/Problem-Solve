@@ -1,4 +1,4 @@
-// Baekjoon No. 11053 - °¡Àå ±ä Áõ°¡ÇÏ´Â ºÎºÐ ¼ö¿­
+// Baekjoon No. 11053 - ê°€ìž¥ ê¸´ ì¦ê°€í•˜ëŠ” ë¶€ë¶„ ìˆ˜ì—´
 // Time Complexity
 // #DP
 
