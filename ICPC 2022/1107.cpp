@@ -22,7 +22,7 @@ int main() {
     int buttonStatus[SIZE] = { 0 };
     for (i = 0; i < m; i++) {
         cin >> status;
-        buttonStatus[status] = 1;   // ���峪�� 1
+        buttonStatus[status] = 1;   // 고장남 1
     }
 
     // solving
