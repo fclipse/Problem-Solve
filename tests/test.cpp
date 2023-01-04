@@ -1,53 +1,30 @@
-// Test Source.
-#include <iostream>
-#include <vector>
-#include <map>
-#include <queue>
-#include <list>
+#include <bits/stdc++.h>
+#define fastIO ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+#define INF (int)(1<<31) - 1
 using namespace std;
 
-class Lamp {
-public:
-	Lamp() {
-		this->power = false;
-		this->illuminance = 1;
-	}
-	Lamp(bool power, int illuminance) {
-		this->power = power;
-		this->illuminance = illuminance;
-	}
-	bool power;
-	int illuminance;
-
-	void onOff() {
-		power = !power;
-		if (power)
-			cout << "전원이 켜졌습니다\n";
-		else
-			cout << "전원이 꺼졌습니다\n";
-	}
-
-	void lightChange() {
-		if (power) {
-			illuminance = illuminance % 3 + 1;
-			cout << "조도 : " << illuminance << "\n";
-		}
-		else {
-			cout << "전원이 꺼져있습니다\n";
-		}
-	}
-};
+void swap(char* c1, char* c2);
+void f(string* str);
 
 int main() {
-	ios::sync_with_stdio(false);
-	cin.tie(NULL);
-	cout.tie(NULL);
-	
-	Lamp gini = Lamp();
-	gini.lightChange();
-	gini.onOff();
+	fastIO;
 
-	for(int i = 0; i < 5; i++)
-		gini.lightChange();
+	string A = "hello";
+	f(&A);
+	
+	
+	cout << A;
+
 	return 0;
+}
+
+void swap(char* c1, char* c2) {
+	char tmp = *c2;
+	*c2 = *c1;
+	*c1 = tmp;
+	return;
+}
+
+void f(string* str) {
+	swap(&(*str)[0], &(*str)[4]);
 }

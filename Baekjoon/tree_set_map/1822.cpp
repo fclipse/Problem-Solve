@@ -1,5 +1,5 @@
 // Baekjoon No. 1822 - 차집합, 221101 solved
-// Time Complexity
+// Time Complexity O(n)
 /*
 * 집합 A에는 속하지만, B에는 속하지 않는 원소(A-B)들을 출력하는 문제
 * 
@@ -10,7 +10,7 @@ using namespace std;
 
 int main() {
 	fastIO
-		int aNum, bNum, tmp;
+	int aNum, bNum, tmp;
 	int i;
 	cin >> aNum >> bNum;
 	vector<int> ans;
