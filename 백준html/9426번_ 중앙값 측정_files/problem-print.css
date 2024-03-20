@@ -1,0 +1,25 @@
+.no-print {
+    display: none !important;
+}
+@page {
+    margin: 5%;
+}
+body {
+    width: 1024px;
+}
+.printable {
+    display: inline !important;
+}
+.printable-block {
+    display: block !important;
+}
+
+.content {
+	padding-top: 0px;
+	padding-bottom: 0px;
+}
+
+.sampledata {
+	overflow-x: hidden !important;
+	page-break-inside: avoid !important;
+}
