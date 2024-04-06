@@ -3,3 +3,4 @@
 ### g++
 
 g++ -o filename filename.cpp
+g++ -o result 12100.cpp
