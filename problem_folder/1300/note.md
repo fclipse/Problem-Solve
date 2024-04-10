@@ -1,5 +1,6 @@
-# K번째 수
+# K번째 수 (해결됨)
 - 백준 1300 / https://www.acmicpc.net/problem/1300
+- 240411 solved
 
 ## 문제 조건, 설명
 시간제한: 2초
@@ -47,3 +48,6 @@ B[k]를 출력한다.
     - 이분탐색 시간복잡도 = O(lgN^2) = O(2lgN) = O(lgN)
     - 해당 수 x가 몇 번째인지 찾는 시간복잡도 = O(N)
     -> O(N * lgN) 안에 해결가능?
+    - smallerNumbersCount()에서 lineCnt의 범위가 <= n이 되어야 함. -> min(x / i, i * n)이 아닌 min(x / i, n)으로 바꿔줌.
+    - 중간에 N*2 이 int의 범위를 넘어가 overflow가 생기는 문제 발생.
+    -> 성공함
