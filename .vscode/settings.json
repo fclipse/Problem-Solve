@@ -48,6 +48,7 @@
         "vector": "cpp",
         "map": "cpp",
         "xtree": "cpp",
-        "queue": "cpp"
+        "queue": "cpp",
+        "*.tcc": "cpp"
     },
 }
