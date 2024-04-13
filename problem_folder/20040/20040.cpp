@@ -3,52 +3,46 @@
 
 using namespace std;
 
-// globals
-set<int> oddDegreeVertex;
-
 // functions
-void updateDegreeVertex(int v, bool isOddDegree);
+int find(int n, vector<int> & parentNode);
+bool union_(int v, int w, vector<int> &parentNode);
 
 int main() {
 	fastio;
     int n, m;
     cin >> n >> m;
     vector<pair<int, int>> stepInfo(m);
-    vector<int> degreeInfo(n, 0);
+    vector<int> parentNode(n, 0);
     for(int i = 0; i < m; i++){
         cin >> stepInfo[i].first >> stepInfo[i].second;
     }
 
     // solving
-    bool success = false;
+    for(int i = 0; i < n; i++){
+        parentNode[i] = i;
+    }
+    // output
     for(int i = 0; i < m; i++){
         int v = stepInfo[i].first, w = stepInfo[i].second;
-        degreeInfo[v] += 1;
-        degreeInfo[w] += 1;
-        // odd degree -> add in degreeInfo[] / even degree -> erase in degreeInfo[] if it contains
-        updateDegreeVertex(v, degreeInfo[v] % 2 != 0);
-        updateDegreeVertex(w, degreeInfo[w] % 2 != 0);
-
-        if(oddDegreeVertex.size() == 0 || oddDegreeVertex.size() == 2){
-            // when answer found
+        if(!union_(v, w, parentNode)){
             cout << i + 1;
-            success = true;
-            break;
+            return 0;
         }
     }
-
-    // output
-    if(!success){
-        cout << 0;
-    }
-	return 0;
+    cout << 0;
 }
 
-void updateDegreeVertex(int v, bool isOddDegree){
-    if(isOddDegree) {
-        oddDegreeVertex.insert(v);
-    }else{// if(oddDegreeVertex.find(v) != oddDegreeVertex.end()) {
-        oddDegreeVertex.erase(v);
-    }
-    return;
+// 부모 노드를 계속해서 타고 올라가 루트 노드를 찾는 연산
+int find(int n, vector<int> & parentNode){
+    if(parentNode[n] == n) return n;
+    return find(parentNode[n], parentNode);
+}
+
+// 두 노드를 하나의 그룹으로 합칠 수 있는지 판정하고, 있다면 합치는 함수
+bool union_(int v, int w, vector<int> &parentNode){
+    int rv = find(v, parentNode), rw = find(w, parentNode);
+    if(rv == rw) return false;
+
+    parentNode[max(rv, rw)] = min(rv, rw);
+    return true;
 }
