@@ -13,31 +13,35 @@ int main() {
     cin >> n;
     vector<int> arr(n);
     vector<int> lis(n, INIT_VALUE);
-    vector<int> lis_backup(n, INIT_VALUE);
+    vector<int> lis_backup(n, -1);
     for(int i = 0; i < n; i++){
         cin >> arr[i];
     }
 
     // solving
     int length = 0;
+    vector<int> ans(n);
     for(int i = 0; i < n; i++){
         int idx = binSearch(arr[i], 0, n - 1, lis);
         if(idx >= 0){
             lis[idx] = arr[i];
+            lis_backup[i] = idx;
             length = max(length, idx + 1);
         }
-        // lis backup
-        if(length == idx + 1){  // idx위치가 length랑 같거나 클 때만 실행됨
-            for(int i = 0; i < length; i++){
-                lis_backup[i] = lis[i];
-            }
-        }
     }
-
+    
+    int targetIdx = length - 1;
+    for(int i = 0; i < n; i++){
+        if(lis_backup[n - i - 1] == targetIdx){
+            ans[targetIdx] = arr[n - i - 1];
+            targetIdx--;
+        }
+        if(targetIdx == -1) break;
+    }
     // output
     cout << length << "\n";
     for(int i = 0; i < length; i++){
-        cout << lis_backup[i] << " ";
+        cout << ans[i] << " ";
     }
     return 0;
 }
