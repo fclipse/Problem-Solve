@@ -50,6 +50,14 @@ int main() {
         }
     }
 
+    for(int i = 0; i < n; i++){
+        for(int j = 0; j < n; j++){
+            cout << isCrossing[i][j] << " ";
+        }
+        cout << endl;
+    }
+    cout << endl;
+
     // 2. 유니온 파인드로 그룹을 지음 - O(N^2)
     for(int i = 0; i < n; i++){
         for(int j = 0; j < i; j++){ // 자기 자신은 포함 x
@@ -86,9 +94,9 @@ int gcd(int a, int b){
 pair<int, int> inclination(Segment s){
     int dx = s.x2 - s.x1;
     int dy = s.y2 - s.y1;
-    int g = gcd(dx, dy);    // g > 0
-    dx /= g;
-    dy /= g;
+    // int g = gcd(dx, dy);    // g > 0
+    // dx /= g;
+    // dy /= g;
     return {dx, dy};
 }
 
