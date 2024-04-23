@@ -49,6 +49,8 @@
         "map": "cpp",
         "xtree": "cpp",
         "queue": "cpp",
-        "*.tcc": "cpp"
+        "*.tcc": "cpp",
+        "forward_list": "cpp",
+        "list": "cpp"
     },
 }

@@ -13,7 +13,7 @@ typedef struct Segment
 } Segment;
 
 // 최대공약수 구하는 함수, a, b 음수여도 됨.
-int gcd(int a, int b);
+// int gcd(int a, int b);
 // 선분의 기울기를 {dx, dy}로 반환하는 함수
 pair<int, int> inclination(Segment s);
 // 직선의 방정식을 이용해 {x, y}가 s 위 / 아래 / 선분 위 중 어디있는지 판정하는 함수
@@ -61,15 +61,16 @@ int main()
         }
     }
 
-    // for (int i = 0; i < n; i++)
-    // {
-    //     for (int j = 0; j < n; j++)
-    //     {
-    //         cout << isCrossing[i][j] << " ";
-    //     }
-    //     cout << endl;
-    // }
-    // cout << endl;
+    cout << endl;
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            cout << isCrossing[i][j] << " ";
+        }
+        cout << endl;
+    }
+    cout << endl;
 
     // 2. 유니온 파인드로 그룹을 지음 - O(N^2)
     for (int i = 0; i < n; i++)
@@ -82,6 +83,13 @@ int main()
             }
         }
     }
+
+    cout << endl;
+    cout << "parent[] : ";
+    for(int i = 0; i < 0; i++){
+        cout << parent[i] << " ";
+    }
+    cout << endl;
 
     // 3. 각 그룹을 방문하면서 각 그룹의 크기와 개수를 셈
     for (int i = 0; i < n; i++)
@@ -101,20 +109,19 @@ int main()
 }
 
 // gcd(a, b) == gcd(-a, b)
-int gcd(int a, int b)
-{
-    a = max(a, -a);
-    b = max(b, -b);
-    if (b > a)
-        swap(a, b);
-    if (a % b == 0)
-        return max(b, -b);
-    return gcd(b, a % b);
-}
+// int gcd(int a, int b)
+// {
+//     a = max(a, -a);
+//     b = max(b, -b);
+//     if (b > a)
+//         swap(a, b);
+//     if (a % b == 0)
+//         return max(b, -b);
+//     return gcd(b, a % b);
+// }
 
 // 기울기를 두 정수 dx, dy로 반환하는 함수
-pair<int, int> inclination(Segment s)
-{
+pair<int, int> inclination(Segment s){
     int dx = s.x2 - s.x1;
     int dy = s.y2 - s.y1;
     // int g = gcd(dx, dy);    // g > 0
@@ -123,24 +130,20 @@ pair<int, int> inclination(Segment s)
     return {dx, dy};
 }
 
-int lineFunction(int x, int y, Segment s)
-{
+int lineFunction(int x, int y, Segment s){
     pair<int, int> m = inclination(s);
     int dx = m.first, dy = m.second;
     int result = dy * x - dx * y + dx * s.y1 - dy * s.x1;
     return result;
 }
 
-bool validate(int v1, int v2)
-{
-    if (v1 * v2 == 0)
-        return true;
+bool validate(int v1, int v2){
+    if (v1 * v2 == 0) return true;
     return (v1 / abs(v1)) * (v2 / abs(v2)) <= 0;
 }
 
 // 두 선분이 교차하는지 판정하는 함수
-bool isCrossed(Segment s1, Segment s2)
-{
+bool isCrossed(Segment s1, Segment s2){
     // 근데 직선의 방정식 위에 있지만 점이 선분 위에 없는 경우는?
     // -> 그래도 상관없음. 서로가 서로를 교차하는지 확인하면 됨.
     // int result = lineFunction(s2.x1, s2.y1, s1) * lineFunction(s2.x2, s2.y2, s1) <= 0 && lineFunction(s1.x1, s1.y1, s2) * lineFunction(s1.x2, s1.y2, s2) <= 0;
@@ -154,16 +157,13 @@ bool isCrossed(Segment s1, Segment s2)
     return result1 && result2;
 }
 
-int find(int x, vector<int> &parent)
-{
-    if (parent[x] == x)
-        return x;
+int find(int x, vector<int> &parent){
+    if (parent[x] == x) return x;
     // 경로 압축 사용
     return parent[x] = find(parent[x], parent);
 }
 
-bool _union(int x1, int x2, vector<int> &parent, vector<int> &rank)
-{
+bool _union(int x1, int x2, vector<int> &parent, vector<int> &rank){
     int r1 = find(x1, parent), r2 = find(x2, parent);
     if (r1 == r2)
         return false;
