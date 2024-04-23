@@ -1,6 +1,6 @@
 # 보석 도둑
 - 백준 1202
-- solving: 240407~
+- solving: 240407~240424 solved
 
 ## 생각
 1. 가방은 총 k개 주어짐.
@@ -24,85 +24,6 @@
     ㄴ근데 배열에 push할때 O(N)이 걸려버림..
     -> 사용한 가방으로 priority_queue를 만들고, 거기서 minBagIdx가 나올때까지 pop을 하면서 idx를 구할 때의 시간복잡도는?
     4. 정답 출력
-#include <bits/stdc++.h>
-#define fastio ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
-
-using namespace std;
-
-// functions
-bool comp(int a, int b);
-int binSearch(int baseValue, int st, int ed, vector<pair<int, int>> &bag);
-int getSmallestBag(int idx, vector<pair<int, int>> &bag, priority_queue<pair<int, int>> &usedBag);
-
-int main() {
-	fastio;
-    int n, k;
-    cin >> n >> k;
-    vector<pair<int, int>> gem(n);  // {value, weight} 형태로 저장
-    vector<pair<int, int>> bag(k);  // {capability, idx} 형태로 저장
-    priority_queue<pair<int, int>> usedBag;  // 이미 사용된 가방들의 idx, 내림차순 순으로 저장됨. / {용량, idx}으로 저장
-    
-    for(int i = 0; i < n; i++){
-        cin >> gem[i].second >> gem[i].first;
-    }
-    for(int i = 0; i < k; i++){
-        cin >> bag[i].first;
-        bag[i].second = i;
-    }
-
-    // solving
-    unsigned long long maxValue = 0;
-    sort(gem.begin(), gem.end(), comp); // 보석 가격 내림차순 정렬
-    sort(bag.begin(), bag.end()); // 가방 용량 오름차순 정렬
-
-    for(int gemIdx = 0; gemIdx < n; gemIdx++){
-        int bagIdx = getSmallestBag(binSearch(gem[gemIdx].second, 0, k, bag), bag, usedBag);
-        if(bagIdx < 0) continue;
-        // 넣을 수 있는 경우
-        usedBag.push(bag[bagIdx]);
-        maxValue += gem[gemIdx].first;
-    }
-
-    // output
-    cout << maxValue;
-	return 0;
-}
-
-// 내림차순 정렬을 위한 compare 함수
-bool comp(int a, int b){
-    return a > b;
-}
-
-// 이분탐색 - O(N)
-// 찾는 가방 중 baseValue보다 크거나 같은 값들 중 가장 작은 값 반환(lower bound)
-// bag배열은 오름차순 정렬 되어있음
-int binSearch(int baseValue, int st, int ed, vector<pair<int, int>> &bag){
-    if(bag[st].first > baseValue) return st;
-    if(bag[ed].first < baseValue) return -1;
-    int mid = (st + ed) / 2;
-    int pivot = bag[mid].first;
-    if(pivot == baseValue) return mid;
-    else if(pivot < baseValue) return binSearch(baseValue, mid + 1, ed, bag);
-    else return binSearch(baseValue, st, mid, bag);
-}
-
-// 사용된 가방들 중 기준이 되는 가방보다 크거나 같은 값 중 가장 
-int getSmallestBag(int idx, vector<pair<int, int>> &bag, priority_queue<pair<int, int>> &usedBag){
-    int result = -1;
-    vector<pair<int, int>> tmp;
-    pair<int, int> topBag;
-    usedBag.
-    while(usedBag.top().first > bag[idx].first){
-        topBag = usedBag.top();
-        tmp.emplace_back(topBag);
-        usedBag.pop();
-
-    }
-    for(int i = 0; i < tmp.size(); i++){
-        usedBag.push(tmp[i]);
-    }
-    return result;
-}
 
 2.가방, 보석 모두 무게 기준 오름차순으로 정렬한 뒤
 보석의 각 요소 순회하면서
@@ -120,3 +41,37 @@ int getSmallestBag(int idx, vector<pair<int, int>> &bag, priority_queue<pair<int
     3. 각 가방마다 들어갈 수 있는 보석 최소 idx, 최대 idx 이분탐색으로 구함 (최소idx >= n -> 다음 가방으로 넘어가기, 최대idx <= 0이면 그냥 최고 가치 보석 return)
     4. 해당 범위 전부 순회하면서 최고 가치 보석 찾기 -> 해당 보석 안담았다면 담기
     5. 정답 출력
+    -> 맞음. 다만 해당 알고리즘으로는 시간초과가 남.
+
+## 정답 알고리즘 도출해낸 계기
+1. 일단 위의 3.의 방법으로 시도했지만 실패
+2. 어떻게 하면 해당 보석의 무게 이하인 gem중에서 가장 가치가 높은 보석들만 뽑을 수 있을지 고민.
+3. 문제를 이미지화시켜서 가방들을 열에, 보석을 행에 무게 오름차순으로 배치, 각 가방들마다 가능한 보석들이 어떻게 되는지 생각함.(이차원 배열열
+4. 그러다가 이전 가방에 들어갈 수 있는 보석은 이후 가방에 무조건 들어갈 수 있다는 특징을 발견.
+5. 생각 좀 더 해봄.
+6. 그러다 가방을 정렬한 배열을 순회할때, 이전 가방에서 검사한 보석들은 "중복"되어 다음 가방에 추가로 넣을 수 있는 보석들만 추가로 검사하면 된다는 사실을 깨달음. -> 해당 정보로 문제를 풀 수 있을 것 같다는 느낌을 받음
+7. 그러면 해당 가방까지의 최대 보석 정보에 새로 검사한 보석 정보만 넣어주면 됨 -> 근데 이걸 어떻게 저장하지? 단순히 최댓값만 저장하는게 아니라 이전 최댓값들에 대한 정보도 저장해야 하는데 -> "우선순위큐 사용"
+8. 그럼 각 가방을 순회하면서 이전까지의 정보를 우선순위큐에 집어넣고, 현재 가방의 용량보다 작은 보석들만 들어가 있으니 그중 최댓값만 바로 뽑아 ans에 출력 -> 해당 보석은 queue에서 pop -> 다음 가방은 해당 가방보다 작은 값들 집어넣고 다시 최대 보석 구하기 -> 반복 -> 문제 해결
+
+## 정답 알고리즘
+1. 가방, 보석을 모두 무게 오름차순으로 정렬함
+2. 우선순위큐는 보석의 가치 내림차순으로 뽑히게 설정함
+3. 각 가방을 돌면서 해당 가방보다 작거나 같은 보석들을 보석 arr을 돌면서 우선순위큐에 넣음
+4. 해당 우선순위큐에 있는 값중 하나를 뽑아 ans에 추가함(여기서 우선순위큐에 있는 값은 모두 해당 가방의 용량보다 무게가 작은 gem밖에 없음)
+5. ans 출력
+
+
+## test case
+
+6 5
+1 40
+4 30
+4 20
+1 10
+1 10
+1 10
+1
+2
+3
+4
+5
