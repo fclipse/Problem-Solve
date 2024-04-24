@@ -3,24 +3,44 @@
     ios::sync_with_stdio(false); \
     cin.tie(NULL);               \
     cout.tie(NULL);
-
+#define SIZE 3000
 using namespace std;
 
-typedef struct
+// structs
+struct Point
 {
-    int x, y;
-} Point;
+    // point 좌표
+    long long x, y;
+    bool operator<(const Point &other) const
+    {
+        if (x == other.x)
+        {
+            return y < other.y;
+        }
+        return x < other.x;
+    }
+};
 
-// 선분의 두 끝점을 저장하는 구조체
-typedef struct Segment
+// 선분의 두 끝점을 저장
+struct Segment
 {
     Point p1, p2;
-} Segment;
+};
 
+// globals
+int parent[SIZE] = {0};
+Segment lines[SIZE];
+// bool isCrossing[SIZE][SIZE] = {0};
+int _count[SIZE] = {0};
+
+// functions
 int ccw(Segment s, Point p);
 bool isCrossed(Segment s1, Segment s2);
-int find(int x, vector<int> &parent);
-bool _union(int x1, int x2, vector<int> &parent, vector<int> &rank);
+int find(int x);
+bool _union(int x1, int x2);
+int compare(Point p1, Point p2);
+Point _min(Point p1, Point p2);
+Point _max(Point p1, Point p2);
 
 int main()
 {
@@ -86,7 +106,6 @@ int main()
     {
         cout << parent[i] << " ";
     }
-    cout << endl;
 
     // 3. 각 그룹을 방문하면서 각 그룹의 크기와 개수를 셈
     for (int i = 0; i < n; i++)
@@ -112,7 +131,7 @@ int ccw(Segment s, Point p)
     if (result == 0)
         return 0;
     else
-        return result > 0 ? 1 : -1;
+        return result > 0 ? 1 : 0;
 }
 
 bool isCrossed(Segment s1, Segment s2)
@@ -149,7 +168,7 @@ int find(int x, vector<int> &parent)
     if (parent[x] == x)
         return x;
     // 경로 압축 사용
-    return parent[x] = find(parent[x], parent);
+    return parent[x] = find(parent[x]);
 }
 
 bool _union(int x1, int x2, vector<int> &parent, vector<int> &rank)
@@ -171,4 +190,37 @@ bool _union(int x1, int x2, vector<int> &parent, vector<int> &rank)
         rank[r1] = 0;
     }
     return true;
+}
+
+int compare(Point p1, Point p2)
+{
+    if (p1.x == p2.x)
+    {
+        if (p1.y == p2.y)
+            return 0;
+        else if (p1.y > p2.y)
+            return 1;
+        return -1;
+    }
+    if (p1.x == p2.x)
+        return 0;
+    else if (p1.x > p2.x)
+        return 1;
+    return -1;
+}
+Point _min(Point p1, Point p2)
+{
+    int result = compare(p1, p2);
+    if (result >= 0)
+        return p2;
+    else
+        return p1;
+}
+Point _max(Point p1, Point p2)
+{
+    int result = compare(p1, p2);
+    if (result <= 0)
+        return p2;
+    else
+        return p1;
 }
