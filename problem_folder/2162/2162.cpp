@@ -6,20 +6,17 @@
 
 using namespace std;
 
+typedef struct{
+    int x, y;
+}Point;
+
 // 선분의 두 끝점을 저장하는 구조체
 typedef struct Segment
 {
-    int x1, x2, y1, y2;
+    Point p1, p2;
 } Segment;
 
-// 최대공약수 구하는 함수, a, b 음수여도 됨.
-// int gcd(int a, int b);
-// 선분의 기울기를 {dx, dy}로 반환하는 함수
-pair<int, int> inclination(Segment s);
-// 직선의 방정식을 이용해 {x, y}가 s 위 / 아래 / 선분 위 중 어디있는지 판정하는 함수
-int lineFunction(int x, int y, Segment s);
-bool validate(int v1, int v2);
-// 두 선분이 교차하는지 판정하는 함수
+int ccw(Segment s, Point p);
 bool isCrossed(Segment s1, Segment s2);
 int find(int x, vector<int> &parent);
 bool _union(int x1, int x2, vector<int> &parent, vector<int> &rank);
@@ -34,128 +31,93 @@ int main()
     vector<int> rank(n, 1); // 이건 1로 초기화
     vector<Segment> lines(n);
     vector<vector<bool>> isCrossing(n, vector<bool>(n, 0));
-    for (int i = 0; i < n; i++)
-    {
-        cin >> lines[i].x1 >> lines[i].y1 >> lines[i].x2 >> lines[i].y2;
+    for (int i = 0; i < n; i++){
+        cin >> lines[i].p1.x >> lines[i].p1.y >> lines[i].p2.x >> lines[i].p2.y;
     }
 
     // solving
     int groupNum = 0;
     int maxGroupSize = 0;
-
-    for (int i = 0; i < n; i++)
-    {
+    // parent[] init
+    for (int i = 0; i < n; i++){
         parent[i] = i;
     }
     // 1. n*n의 교차하는지 표를 만듦 - O(N^2)
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j <= i; j++)
-        {
-            if (i == j)
-            {
-                isCrossing[i][j] = 1;
-                continue;
-            }
-            isCrossing[j][i] = isCrossing[i][j] = isCrossed(lines[i], lines[j]);
+    for (int i = 0; i < n; i++){
+        for (int j = 0; j <= i; j++){
+            if (i == j) isCrossing[i][j] = 1;
+            else isCrossing[j][i] = isCrossing[i][j] = isCrossed(lines[i], lines[j]);
         }
     }
 
-    cout << endl;
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < n; j++)
-        {
+    cout << "isCrossed[] : "<< endl;
+    for (int i = 0; i < n; i++){
+        for (int j = 0; j < n; j++){
             cout << isCrossing[i][j] << " ";
         }
         cout << endl;
     }
     cout << endl;
 
-    // 2. 유니온 파인드로 그룹을 지음 - O(N^2)
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < i; j++)
-        { // 자기 자신은 포함 x
-            if (isCrossing[i][j])
-            {
+    // 2. 유니온 파인드로 그룹을 지음 - O(N^2logN)
+    for (int i = 0; i < n; i++){
+        for (int j = 0; j < i; j++){ // 자기 자신은 포함 x
+            if (isCrossing[i][j]){
                 _union(i, j, parent, rank);
             }
         }
     }
 
-    cout << endl;
+    // cout << endl;
     cout << "parent[] : ";
-    for(int i = 0; i < 0; i++){
+    for(int i = 0; i < n; i++){
         cout << parent[i] << " ";
     }
     cout << endl;
 
     // 3. 각 그룹을 방문하면서 각 그룹의 크기와 개수를 셈
-    for (int i = 0; i < n; i++)
-    {
-        if (rank[i] > 0)
-        {
+    for (int i = 0; i < n; i++){
+        if (rank[i] > 0){
             groupNum++;
             maxGroupSize = max(maxGroupSize, rank[i]);
         }
     }
 
     // output
-    cout << groupNum << "\n"
-         << maxGroupSize;
-
+    cout << groupNum << "\n" << maxGroupSize;
     return 0;
 }
 
-// gcd(a, b) == gcd(-a, b)
-// int gcd(int a, int b)
-// {
-//     a = max(a, -a);
-//     b = max(b, -b);
-//     if (b > a)
-//         swap(a, b);
-//     if (a % b == 0)
-//         return max(b, -b);
-//     return gcd(b, a % b);
-// }
-
-// 기울기를 두 정수 dx, dy로 반환하는 함수
-pair<int, int> inclination(Segment s){
-    int dx = s.x2 - s.x1;
-    int dy = s.y2 - s.y1;
-    // int g = gcd(dx, dy);    // g > 0
-    // dx /= g;
-    // dy /= g;
-    return {dx, dy};
+int ccw(Segment s, Point p){
+    Point v1 = {s.p2.x - s.p1.x, s.p2.y - s.p1.y};
+    Point v2 = {p.x - s.p2.x, p.y - s.p2.y};
+    int result = v1.x * v2.y - v1.y * v2.x;
+    if(result == 0) return 0;
+    else return result > 0 ? 1 : 0;
 }
 
-int lineFunction(int x, int y, Segment s){
-    pair<int, int> m = inclination(s);
-    int dx = m.first, dy = m.second;
-    int result = dy * x - dx * y + dx * s.y1 - dy * s.x1;
+bool isCrossed(Segment s1, Segment s2){
+    bool result;
+    int ccwResult[4] = {0};
+    ccwResult[0] = ccw(s1, s2.p1);
+    ccwResult[1] = ccw(s1, s2.p2);
+    ccwResult[2] = ccw(s2, s1.p1);
+    ccwResult[3] = ccw(s2, s1.p2);
+    cout << "s1 - (" << s1.p1.x << ", " << s1.p1.y << ") - (" << s1.p2.x << ", " << s1.p2.y << ")\n";
+    cout << "s2 - (" << s2.p1.x << ", " << s2.p1.y << ") - (" << s2.p2.x << ", " << s2.p2.y << ")\n";
+    for(int i = 0; i < 4; i++) cout << ccwResult[i] << " ";
+    cout << endl;
+    if(ccwResult[0] == 0 && ccwResult[1] == 0){
+        if(min(s1.p1.x, s1.p2.x) <= max(s2.p1.x, s2.p2.x) && min(s2.p1.x, s2.p2.x) <= max(s1.p1.x, s1.p2.x)) result = true;
+        else result = false;
+    }else{
+        result = ccwResult[0] * ccwResult[1] <= 0 && ccwResult[2]*ccwResult[3] <= 0;
+    }
+    cout << "result - " << result << endl << endl;
     return result;
 }
 
-bool validate(int v1, int v2){
-    if (v1 * v2 == 0) return true;
-    return (v1 / abs(v1)) * (v2 / abs(v2)) <= 0;
-}
 
-// 두 선분이 교차하는지 판정하는 함수
-bool isCrossed(Segment s1, Segment s2){
-    // 근데 직선의 방정식 위에 있지만 점이 선분 위에 없는 경우는?
-    // -> 그래도 상관없음. 서로가 서로를 교차하는지 확인하면 됨.
-    // int result = lineFunction(s2.x1, s2.y1, s1) * lineFunction(s2.x2, s2.y2, s1) <= 0 && lineFunction(s1.x1, s1.y1, s2) * lineFunction(s1.x2, s1.y2, s2) <= 0;
-    int result1_1 = lineFunction(s2.x1, s2.y1, s1);
-    int result1_2 = lineFunction(s2.x2, s2.y2, s1);
-    bool result1 = validate(result1_1, result1_2);
-
-    int result2_1 = lineFunction(s1.x1, s1.y1, s2);
-    int result2_2 = lineFunction(s1.x2, s1.y2, s2);
-    bool result2 = validate(result2_1, result2_2);
-    return result1 && result2;
-}
 
 int find(int x, vector<int> &parent){
     if (parent[x] == x) return x;
@@ -168,14 +130,12 @@ bool _union(int x1, int x2, vector<int> &parent, vector<int> &rank){
     if (r1 == r2)
         return false;
     // parent[x1] = parent[x2] = min(r1, r2);    // ?
-    if (rank[r1] >= rank[r2])
-    {
+    if (rank[r1] >= rank[r2]){
         parent[r2] = r1;
         rank[r1] += rank[r2];
         rank[r2] = 0;
     }
-    else
-    {
+    else{
         parent[r1] = r2;
         rank[r2] += rank[r1];
         rank[r1] = 0;
