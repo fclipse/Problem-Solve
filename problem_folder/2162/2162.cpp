@@ -95,7 +95,7 @@ int main()
         { // 자기 자신은 포함 x
             if (isCrossing[i][j])
             {
-                _union(i, j, parent, rank);
+                _union(i, j);
             }
         }
     }
